@@ -32,6 +32,10 @@ jobs:
           docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
 
-      - name: Deploy to AWS
-        run: |
-          echo "This step will be completed later"
+      - name: Update ECS service
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: flask-app-task
+          service: my-flask-service
+          cluster: my-flask-cluster1
+          wait-for-service-stability: true
